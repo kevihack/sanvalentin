@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Galería - Nuestra Historia</title>
+  <style>
+    body {
+      font-family: "Times New Roman", serif;
+      transition: background 1s ease-in-out;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Reproductor de audio en la esquina inferior derecha */
+    .cancion {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 999;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      background: #191970;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5em;
+      color: gold;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+    }
+
+    /* Contenedor de la línea de tiempo */
+    .timeline {
+      position: relative;
+      margin: 40px auto;
+      padding: 40px 0;
+      width: 80%;
+      max-width: 1000px;
+    }
+
+    /* Línea central */
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 4px;
+      height: 100%;
+      background: gold;
+      transform: translateX(-50%);
+    }
+
+    /* Contenedor de cada evento */
+    .timeline-event {
+      position: relative;
+      width: 50%;
+      padding: 20px;
+      box-sizing: border-box;
+      margin-bottom: 50px;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.6s ease;
+    }
+
+    .timeline-event.left {
+      left: 0;
+      text-align: right;
+    }
+
+    .timeline-event.right {
+      left: 50%;
+    }
+
+    /* Puntos en la línea */
+    .timeline-event::before {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #8B0000;
+      border: 3px solid gold;
+      top: 20px;
+      z-index: 1;
+    }
+
+    .timeline-event.left::before {
+      right: -10px;
+    }
+
+    .timeline-event.right::before {
+      left: -10px;
+    }
+
+    /* Caja de contenido */
+    .timeline-content {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 15px;
+      border-radius: 10px;
+      border: 2px solid gold;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+      display: inline-block;
+      max-width: 300px;
+      color: #000;
+    }
+
+    .timeline-content img {
+      width: 100%;
+      border-radius: 10px;
+      border: 2px solid #fff;
+      margin-bottom: 10px;
+    }
+
+    .timeline-content h3 {
+      margin: 0 0 10px 0;
+      font-size: 1.2em;
+      color: gold;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+    }
+
+    .timeline-content p {
+      margin: 0;
+      font-size: 0.95em;
+    }
+
+    /* Media Query para dispositivos móviles */
+    @media (max-width: 600px) {
+      .timeline {
+        width: 90%;
+      }
+
+      .timeline::before {
+        left: 20px;
+      }
+
+      .timeline-event {
+        width: 100%;
+        left: 0;
+        text-align: left;
+        padding-left: 40px;
+      }
+
+      .timeline-event.right {
+        left: 0;
+        text-align: left;
+      }
+
+      .timeline-event::before {
+        left: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Nuestra Historia</h1>
+    <div class="cancion">
+      <h3>Reproduce:</h3>
+      <audio controls autoplay loop>
+          <source src="love making.mp3" type="audio/mp3">
+          Tu navegador no soporta el audio.
+      </audio>
+    </div>
+  </header>
+
+  <div class="timeline" id="timeline">
+    <!-- Evento 1 -->
+    <div class="timeline-event left">
+      <div class="timeline-content">
+        <img src="descarga.png" alt="Primer Encuentro">
+        <h3>Primer Encuentro</h3>
+        <p>El destino nos juntó en una aplicación donde era casi imposible encontrarnos.</p>
+      </div>
+    </div>
+
+    <!-- Evento 2 -->
+    <div class="timeline-event right">
+      <div class="timeline-content">
+        <img src="imagen2.jpg" alt="Primera Cita">
+        <h3>Nuestra Primera Cita</h3>
+        <p>Nos vimos en la rave, y aún no podía creer que aceptaras verme. Me sentía feliz.</p>
+      </div>
+    </div>
+
+    <!-- Evento 3 -->
+    <div class="timeline-event left">
+      <div class="timeline-content">
+        <img src="imagen3.jpg" alt="Primera Conversación Cariñosa">
+        <h3>Nuestra Primera Conversación Cariñosa</h3>
+        <p>Ya estaba enamorado de ti, pero me daba miedo admitirlo.</p>
+      </div>
+    </div>
+
+    <!-- Evento 4 -->
+    <div class="timeline-event right">
+      <div class="timeline-content">
+        <img src="imagen4.jpg" alt="Momentos Especiales">
+        <h3>Momentos Especiales</h3>
+        <p>Cada día que pasaba me enamoraba más de tu forma de ser.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Animación al hacer scroll: aparecer eventos
+    const events = document.querySelectorAll('.timeline-event');
+    window.addEventListener('scroll', checkEvents);
+
+    function checkEvents() {
+      const triggerBottom = window.innerHeight * 0.85;
+
+      events.forEach(event => {
+        const eventTop = event.getBoundingClientRect().top;
+        if(eventTop < triggerBottom) {
+          event.style.opacity = '1';
+          event.style.transform = 'translateY(0)';
+        }
+      });
+    }
+
+    checkEvents();
+
+    // Cambio de fondos automáticos
+    const fondos = [
+      "url('body1.jpg')",
+      "url('body2.jpg')",
+      "url('body3.jpg')",
+      "url('body4.jpg')"
+    ];
+    
+    let indiceActual = 0;
+
+    function cambiarFondo() {
+      indiceActual = (indiceActual + 1) % fondos.length;
+      document.body.style.backgroundImage = fondos[indiceActual];
+    }
+
+    setInterval(cambiarFondo, 5000);
+
+    document.body.style.backgroundImage = fondos[indiceActual];
+  </script>
+</body>
+</html>
